@@ -51,7 +51,7 @@ train(net, criterion, optimizer, param, loader_train)
 
 # Check accuracy and nonzeros weights in each layer
 acc = check_accuracy(net, loader_test)
-check_nonzero(model)
+check_nonzero(net)
 
 
 # Save and load the entire model
