@@ -30,7 +30,7 @@ loader_test = torch.utils.data.DataLoader(test_dataset, batch_size=param['batch_
 
 # Load the pretrained model
 net = LeNet5()
-net.load_state_dict(torch.load('data/lenet5_pretrained.pkl'))
+net.load_state_dict(torch.load('models/lenet5_pretrained.pkl'))
 if torch.cuda.is_available():
     print('CUDA ensabled.')
     net.cuda()
@@ -39,7 +39,7 @@ net.train()
 
 # prune the weights
 masks = class_blinded_prune(net, param)
-net.set_mask(masks)
+net.set_masks(masks)
 
 
 # Retraining
