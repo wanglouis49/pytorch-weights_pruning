@@ -55,4 +55,4 @@ check_nonzero(net)
 
 
 # Save and load the entire model
-torch.save(net.state_dict(), 'models/lenet5_pruned_'+param['prune_perc']+'.pkl')
+torch.save(net.state_dict(), 'models/lenet5_pruned_'+str(param['prune_perc'])+'.pkl')
