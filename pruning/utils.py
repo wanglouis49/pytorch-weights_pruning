@@ -36,7 +36,6 @@ def train(model, loss_fn, optimizer, param, loader_train, loader_val=None):
 
 def test(model, loader):
 
-    print('Checking accuracy on test set')  
     model.eval()
 
     num_correct, num_samples = 0, len(loader.dataset)
@@ -57,7 +56,7 @@ def test(model, loader):
     return acc
     
 
-def prune_rate(model):
+def prune_rate(model, verbose=True):
     """
     Print out prune rate for each layer and the whole network
     """
@@ -80,13 +79,18 @@ def prune_rate(model):
                 np.count_nonzero(parameter.cpu().data.numpy()==0)
             nb_zero_param += zero_param_this_layer
 
-            print("Layer {} | {} layer | {:.2f}% parameters pruned".format(
-                layer_id,
-                'Conv' if len(parameter.data.size()) == 4 else 'Linear',
-                100.*zero_param_this_layer/param_this_layer,
-                ))
+            if verbose:
+                print("Layer {} | {} layer | {:.2f}% parameters pruned" \
+                    .format(
+                        layer_id,
+                        'Conv' if len(parameter.data.size()) == 4 \
+                            else 'Linear',
+                        100.*zero_param_this_layer/param_this_layer,
+                        ))
 
-    print("Final pruning rate: {:.2f}%".format(100.*nb_zero_param/total_nb_param))
+    if verbose:
+        print("Final pruning rate: {:.2f}%"\
+            .format(100.*nb_zero_param/total_nb_param))
     return nb_zero_param, total_nb_param
 
 

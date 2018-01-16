@@ -26,9 +26,10 @@ def weight_prune(model, pruning_perc):
     return masks
 
 
-def filter_prune(model, masks):
+def prune_one_filter(model, masks):
     '''
-    Pruning a single feature map by the l1 norm of kernel weights
+    Pruning one least ``important'' feature map by the l1 norm of 
+    kernel weights
     arXiv: 1608.08710
     '''
 
@@ -66,5 +67,22 @@ def filter_prune(model, masks):
     print('Prune filter #{} in layer #{}'.format(
         to_prune_filter_ind, 
         to_prune_layer_ind))
+
+    return masks
+
+
+def filter_prune(model, pruning_perc):
+    '''
+    Prune filters one by one until reach pruning_perc
+    (not iterative pruning)
+    '''
+    masks = []
+    current_pruning_perc = 0.
+
+    while current_pruning_perc < pruning_perc:
+        masks = prune_one_filter(model, masks)
+        model.set_masks(masks)
+        current_pruning_perc = prune_rate(model, verbose=False)
+        print('{:.2f} pruned'.format(current_pruning_perc))
 
     return masks
