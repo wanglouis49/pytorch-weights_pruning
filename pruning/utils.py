@@ -47,8 +47,13 @@ def test(model, loader):
         num_correct += (preds == y).sum()
 
     acc = float(num_correct) / num_samples
-    print('Got %d / %d correct (%.2f%%)' % 
-        (num_correct, num_samples, 100 * acc))
+
+    print('Test accuracy: {:.2f}% ({}/{})'.format(
+        100.*acc,
+        num_correct,
+        num_samples,
+        ))
+    
     return acc
     
 
@@ -72,7 +77,7 @@ def prune_rate(model):
                 np.count_nonzero(parameter.cpu().data.numpy()==0)
             nb_zero_param += zero_param_this_layer
 
-            print("Layer {} | {} | {}% parameters pruned".format(
+            print("{} layer {}% parameters pruned".format(
                 i, 
                 'Conv' if len(parameter.data.size()) == 4 else 'Linear',
                 zero_param_this_layer/param_this_layer,
