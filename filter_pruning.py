@@ -37,18 +37,18 @@ loader_test = torch.utils.data.DataLoader(test_dataset,
 
 # Load the pretrained model
 net = ConvNet()
-# net.load_state_dict(torch.load('convnet_pretrained.pkl'))
+net.load_state_dict(torch.load('convnet_pretrained.pkl'))
 if torch.cuda.is_available():
     print('CUDA ensabled.')
     net.cuda()
 print("--- Pretrained network loaded ---")
-# test(net, loader_test)
+test(net, loader_test)
 
 # prune the weights
-# masks = filter_prune(net, param['pruning_perc'])
-# net.set_masks(masks)
-# print("--- {}% parameters pruned ---".format(param['pruning_perc']))
-# test(net, loader_test)
+masks = filter_prune(net, param['pruning_perc'])
+net.set_masks(masks)
+print("--- {}% parameters pruned ---".format(param['pruning_perc']))
+test(net, loader_test)
 
 
 # Retraining
@@ -66,4 +66,4 @@ prune_rate(net)
 
 
 # Save and load the entire model
-torch.save(net.state_dict(), 'convnet_pretrained.pkl')
+torch.save(net.state_dict(), 'convnet_pruned.pkl')
