@@ -54,5 +54,5 @@ class LeNet5(nn.Module):
     def set_masks(self, masks):
         # Should be a less manual way to set masks
         # Leave it for the future
-        self.conv1.set_mask(masks[0])
-        self.conv2.set_mask(masks[1])
+        self.conv1.set_mask(torch.from_numpy(masks[0]))
+        self.conv2.set_mask(torch.from_numpy(masks[1]))
