@@ -8,7 +8,7 @@ import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
 from pruning.methods import weight_prune
-from pruning.utils import to_var, train, test, check_nonzero
+from pruning.utils import to_var, train, test, prune_rate
 from models import MLP
 
 

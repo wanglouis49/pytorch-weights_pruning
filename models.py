@@ -4,7 +4,7 @@ from pruning.layers import MaskedLinear, MaskedConv2d
 
 class MLP(nn.Module):
     def __init__(self):
-        super(LeNet5, self).__init__()
+        super(MLP, self).__init__()
         self.linear1 = MaskedLinear(28*28, 200)
         self.relu1 = nn.ReLU(inplace=True)
         self.linear2 = MaskedLinear(200, 200)

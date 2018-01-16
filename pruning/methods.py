@@ -25,7 +25,7 @@ def weight_prune(model, pruning_perc):
     return masks
 
 
-def filter_prune(model masks):
+def filter_prune(model, masks):
     '''
     Pruning a single feature map by the l1 norm of kernel weights
     arXiv: 1608.08710
