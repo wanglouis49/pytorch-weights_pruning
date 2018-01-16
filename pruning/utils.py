@@ -87,11 +87,10 @@ def prune_rate(model, verbose=True):
                             else 'Linear',
                         100.*zero_param_this_layer/param_this_layer,
                         ))
-
+    pruning_perc = 100.*nb_zero_param/total_nb_param
     if verbose:
-        print("Final pruning rate: {:.2f}%"\
-            .format(100.*nb_zero_param/total_nb_param))
-    return nb_zero_param, total_nb_param
+        print("Final pruning rate: {:.2f}%".format(pruning_perc))
+    return pruning_perc
 
 
 def arg_nonzero_min(a):

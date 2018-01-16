@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from pruning.utils import arg_nonzero_min
+from pruning.utils import prune_rate, arg_nonzero_min
 
 
 def weight_prune(model, pruning_perc):
@@ -28,9 +28,9 @@ def weight_prune(model, pruning_perc):
 
 def prune_one_filter(model, masks):
     '''
-    Pruning one least ``important'' feature map by the l1 norm of 
+    Pruning one least ``important'' feature map by the scaled l2norm of 
     kernel weights
-    arXiv: 1608.08710
+    arXiv:1611.06440
     '''
 
     NO_MASKS = False
@@ -49,9 +49,9 @@ def prune_one_filter(model, masks):
             if NO_MASKS:
                 masks.append(np.ones(p_np.shape).astype('float32'))
 
-            # find the l1 norm for each filter this layer
-            value_this_layer = np.abs(p_np).sum(axis=1).sum(axis=1)\
-                .sum(axis=1)
+            # find the scaled l2 norm for each filter this layer
+            value_this_layer = np.square(p_np).sum(axis=1).sum(axis=1)\
+                .sum(axis=1)/(p_np.shape[1]*p_np.shape[2]*p_np.shape[3])
             min_value, min_ind = arg_nonzero_min(list(value_this_layer))
             values.append([min_value, min_ind])
 

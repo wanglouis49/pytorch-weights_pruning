@@ -14,7 +14,7 @@ from models import ConvNet
 
 # Hyper Parameters
 param = {
-    'pruning_perc': 50.,
+    'pruning_perc': 40.,
     'batch_size': 128, 
     'test_batch_size': 100,
     'num_epochs': 5,
