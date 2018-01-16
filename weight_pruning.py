@@ -41,13 +41,13 @@ net.load_state_dict(torch.load('mlp_pretrained.pkl'))
 if torch.cuda.is_available():
     print('CUDA ensabled.')
     net.cuda()
-print("Pretrained network loaded.")
+print("--- Pretrained network loaded ---")
 test(net, loader_test)
 
 # prune the weights
 masks = weight_prune(net, param['pruning_perc'])
 net.set_masks(masks)
-print("{}% parameters pruned.".format(param['pruning_perc']))
+print("--- {}% parameters pruned ---".format(param['pruning_perc']))
 test(net, loader_test)
 
 
@@ -60,7 +60,7 @@ train(net, criterion, optimizer, param, loader_train)
 
 
 # Check accuracy and nonzeros weights in each layer
-print("After retraining...")
+print("--- After retraining ---")
 test(net, loader_test)
 prune_rate(net)
 

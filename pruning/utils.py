@@ -64,7 +64,9 @@ def prune_rate(model):
     total_nb_param = 0
     nb_zero_param = 0
 
-    for i, parameter in enumerate(model.parameters()):
+    layer_id = 0
+
+    for parameter in model.parameters():
 
         param_this_layer = 1
         for dim in parameter.data.size():
@@ -73,11 +75,13 @@ def prune_rate(model):
 
         # only pruning linear and conv layers
         if len(parameter.data.size()) != 1:
+            layer_id += 1
             zero_param_this_layer = \
                 np.count_nonzero(parameter.cpu().data.numpy()==0)
             nb_zero_param += zero_param_this_layer
 
-            print("{} layer {:.2f}% parameters pruned".format(
+            print("Layer {} | {} layer | {:.2f}% parameters pruned".format(
+                layer_id,
                 'Conv' if len(parameter.data.size()) == 4 else 'Linear',
                 100.*zero_param_this_layer/param_this_layer,
                 ))
