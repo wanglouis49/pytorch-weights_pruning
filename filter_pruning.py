@@ -37,18 +37,18 @@ loader_test = torch.utils.data.DataLoader(test_dataset,
 
 # Load the pretrained model
 net = LeNet5()
-# net.load_state_dict(torch.load('lenet5_pretrained.pkl'))
+net.load_state_dict(torch.load('lenet5_pretrained.pkl'))
 if torch.cuda.is_available():
     print('CUDA ensabled.')
     net.cuda()
-# print("--- Pretrained network loaded ---")
-# test(net, loader_test)
+print("--- Pretrained network loaded ---")
+test(net, loader_test)
 
 # prune the weights
-# masks = filter_prune(net, param['pruning_perc'])
-# net.set_masks(masks)
-# print("--- {}% parameters pruned ---".format(param['pruning_perc']))
-# test(net, loader_test)
+masks = filter_prune(net, param['pruning_perc'])
+net.set_masks(masks)
+print("--- {}% parameters pruned ---".format(param['pruning_perc']))
+test(net, loader_test)
 
 
 # Retraining
@@ -60,10 +60,10 @@ train(net, criterion, optimizer, param, loader_train)
 
 
 # Check accuracy and nonzeros weights in each layer
-# print("--- After retraining ---")
+print("--- After retraining ---")
 test(net, loader_test)
 prune_rate(net)
 
 
 # Save and load the entire model
-torch.save(net.state_dict(), 'lenet5_pretrained.pkl')
+torch.save(net.state_dict(), 'lenet5_pruned.pkl')
