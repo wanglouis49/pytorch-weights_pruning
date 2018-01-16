@@ -9,7 +9,7 @@ import torchvision.transforms as transforms
 
 from pruning.methods import filter_prune
 from pruning.utils import to_var, train, test, prune_rate
-from models import LeNet5
+from models import ConvNet
 
 
 # Hyper Parameters
@@ -36,19 +36,19 @@ loader_test = torch.utils.data.DataLoader(test_dataset,
 
 
 # Load the pretrained model
-net = LeNet5()
-net.load_state_dict(torch.load('lenet5_pretrained.pkl'))
+net = ConvNet()
+# net.load_state_dict(torch.load('convnet_pretrained.pkl'))
 if torch.cuda.is_available():
     print('CUDA ensabled.')
     net.cuda()
 print("--- Pretrained network loaded ---")
-test(net, loader_test)
+# test(net, loader_test)
 
 # prune the weights
-masks = filter_prune(net, param['pruning_perc'])
-net.set_masks(masks)
-print("--- {}% parameters pruned ---".format(param['pruning_perc']))
-test(net, loader_test)
+# masks = filter_prune(net, param['pruning_perc'])
+# net.set_masks(masks)
+# print("--- {}% parameters pruned ---".format(param['pruning_perc']))
+# test(net, loader_test)
 
 
 # Retraining
@@ -66,4 +66,4 @@ prune_rate(net)
 
 
 # Save and load the entire model
-torch.save(net.state_dict(), 'lenet5_pruned.pkl')
+torch.save(net.state_dict(), 'convnet_pretrained.pkl')
