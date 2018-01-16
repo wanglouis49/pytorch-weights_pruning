@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from pruning.utils import to_var
+
 
 class MaskedLinear(nn.Linear):
     def __init__(self, in_features, out_features, bias=True):

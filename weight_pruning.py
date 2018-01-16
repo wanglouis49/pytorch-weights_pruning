@@ -17,7 +17,7 @@ param = {
     'pruning_perc': 90.,
     'batch_size': 128, 
     'test_batch_size': 100,
-    'num_epochs': 10,
+    'num_epochs': 5,
     'learning_rate': 0.001,
     'weight_decay': 5e-4,
 }

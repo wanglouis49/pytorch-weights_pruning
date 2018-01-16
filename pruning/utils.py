@@ -39,7 +39,7 @@ def test(model, loader):
     print('Checking accuracy on test set')  
     model.eval()
 
-    num_correct, num_samples = 0, len(loader)
+    num_correct, num_samples = 0, len(loader.dataset)
     for x, y in loader:
         x_var = to_var(x, volatile=True)
         scores = model(x_var)
@@ -77,13 +77,12 @@ def prune_rate(model):
                 np.count_nonzero(parameter.cpu().data.numpy()==0)
             nb_zero_param += zero_param_this_layer
 
-            print("{} layer {}% parameters pruned".format(
-                i, 
+            print("{} layer {:.2f}% parameters pruned".format(
                 'Conv' if len(parameter.data.size()) == 4 else 'Linear',
-                zero_param_this_layer/param_this_layer,
+                100.*zero_param_this_layer/param_this_layer,
                 ))
 
-    print("Final pruning rate: ", nb_zero_param/total_nb_param)
+    print("Final pruning rate: {:.2f}%".format(100.*nb_zero_param/total_nb_param))
     return nb_zero_param, total_nb_param
 
 
