@@ -37,7 +37,7 @@ loader_test = torch.utils.data.DataLoader(test_dataset,
 
 # Load the pretrained model
 net = MLP()
-net.load_state_dict(torch.load('mlp_pretrained.pkl'))
+net.load_state_dict(torch.load('models/mlp_pretrained.pkl'))
 if torch.cuda.is_available():
     print('CUDA ensabled.')
     net.cuda()
@@ -66,4 +66,4 @@ prune_rate(net)
 
 
 # Save and load the entire model
-torch.save(net.state_dict(), 'mlp_pruned.pkl')
+torch.save(net.state_dict(), 'models/mlp_pruned.pkl')
