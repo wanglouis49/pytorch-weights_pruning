@@ -32,7 +32,6 @@ def prune_one_filter(model, masks):
     kernel weights
     arXiv:1611.06440
     '''
-
     NO_MASKS = False
     # construct masks if there is not yet
     if not masks:
@@ -52,6 +51,9 @@ def prune_one_filter(model, masks):
             # find the scaled l2 norm for each filter this layer
             value_this_layer = np.square(p_np).sum(axis=1).sum(axis=1)\
                 .sum(axis=1)/(p_np.shape[1]*p_np.shape[2]*p_np.shape[3])
+            # normalization (important)
+            value_this_layer = value_this_layer / \
+                np.sqrt(np.square(value_this_layer).sum())
             min_value, min_ind = arg_nonzero_min(list(value_this_layer))
             values.append([min_value, min_ind])
 
